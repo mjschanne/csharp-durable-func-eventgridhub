@@ -51,7 +51,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-// var funcStorageAccountKey = funcStorageAccount.listKeys().keys[0].value
+var funcStorageAccountKey = funcStorageAccount.listKeys().keys[0].value
 // var endpointSuffix = environment().suffixes.storage
 // var storageAccountKey = storageAccount.listKeys().keys[0].value
 
