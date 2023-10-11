@@ -42,7 +42,5 @@ resource systemTopic 'Microsoft.EventGrid/systemTopics@2023-06-01-preview' = {
   }
 }
 
-
-
 output eventHubName string = eventHub.name
 output systemTopicName string = systemTopic.name

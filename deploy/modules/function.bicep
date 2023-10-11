@@ -18,7 +18,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing 
   name: storageAccountName
 }
 
-resource funcStorageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
+resource funcStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: funcStorageAccountName
   location: location
   sku: {
@@ -54,7 +54,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
 var funcStorageAccountKey = funcStorageAccount.listKeys().keys[0].value
 var endpointSuffix = environment().suffixes.storage
 // var storageAccountKey = storageAccount.listKeys().keys[0].value
-var storageAccountKey = storageAccount.listKeys().keys[0]
+var storageAccountKeys = listKeys(storageAccount.id, '2021-09-01').keys[0].value
 
 resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
   name: appName
@@ -101,7 +101,7 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         // } 
         {
           name: 'testvalue'
-          value: storageAccountKey.value
+          value: storageAccountKeys.keys[0].value
         }
         {
           name: 'Container1Name'
