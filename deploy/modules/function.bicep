@@ -53,7 +53,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
 
 var funcStorageAccountKey = funcStorageAccount.listKeys().keys[0].value
 var endpointSuffix = environment().suffixes.storage
-// var storageAccountKey = storageAccount.listKeys().keys[0].value
+var storageAccountKey = storageAccount.listKeys().keys[0].value
 
 resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
   name: appName
@@ -90,14 +90,14 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
           name: 'EventHubConnStr'
           value: eventHub.listKeys().primaryConnectionString
         }
-        {
-          name: 'EventHubName'
-          value: systemTopicName
-        }
         // {
-        //   name: 'BlobStorage'
-        //   value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccountKey};EndpointSuffix=${endpointSuffix}'
+        //   name: 'EventHubName'
+        //   value: systemTopicName
         // }
+        {
+          name: 'BlobStorage'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccountKey};EndpointSuffix=${endpointSuffix}'
+        }
         {
           name: 'Container1Name'
           value: container1Name
