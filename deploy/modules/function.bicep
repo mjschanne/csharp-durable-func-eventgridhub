@@ -51,8 +51,9 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-var accountKey = funcStorageAccount.listKeys().keys[0].value
+var funcStorageAccountKey = funcStorageAccount.listKeys().keys[0].value
 var endpointSuffix = environment().suffixes.storage
+var storageAccountKey = storageAccount.listKeys().keys[0].value
 
 resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
   name: appName
@@ -67,11 +68,11 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${accountKey}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${funcStorageAccountKey}'
         }
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${accountKey}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${funcStorageAccountKey}'
         }
         {
           name: 'WEBSITE_CONTENTSHARE'
@@ -95,7 +96,7 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         }
         {
           name: 'BlobStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccount.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccountKey};EndpointSuffix=${endpointSuffix}'
         }
         {
           name: 'Container1Name'
