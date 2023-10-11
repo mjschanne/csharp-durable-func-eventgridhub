@@ -5,7 +5,6 @@ param storageAccountName string
 var eventHubNamespaceName = '${resourceGroupPrefix}-namespace'
 var eventHubName = resourceGroupPrefix
 var systemTopicName = '${resourceGroupPrefix}-systemtopic'
-var systemTopicSubscriptionName = '${resourceGroupPrefix}-systemtopic-sub'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
   name: storageAccountName
@@ -43,29 +42,7 @@ resource systemTopic 'Microsoft.EventGrid/systemTopics@2023-06-01-preview' = {
   }
 }
 
-resource systemTopicSubscription 'Microsoft.EventGrid/eventSubscriptions@2022-06-15' = {
-  name: systemTopicSubscriptionName
-  scope: storageAccount
-  properties: {
-    destination: {
-      endpointType: 'EventHub'
-      properties: {
-        resourceId: eventHub.id
-      }
-    }
-    filter: {
-      enableAdvancedFilteringOnArrays: true
-      includedEventTypes: [
-        'Microsoft.Storage.BlobCreated'
-      ]
-    }
-    labels: []
-    retryPolicy: {
-      eventTimeToLiveInMinutes: 30
-      maxDeliveryAttempts: 1440
-    }
-  }
-}
+
 
 output eventHubName string = eventHub.name
 output systemTopicName string = systemTopic.name

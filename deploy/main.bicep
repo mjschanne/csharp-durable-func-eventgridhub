@@ -86,3 +86,12 @@ module function 'modules/function.bicep' = {
     systemTopicName: eventHub.outputs.systemTopicName
   }
 }
+module subscription 'modules/subscription.bicep' = {
+  name: '${resourceGroupPrefix}-subscription'
+  dependsOn: [eventHub, function]
+  params: {
+    functionAppName: function.outputs.functionAppName
+    resourceGroupPrefix: resourceGroupPrefix
+    storageAccountName: storage.outputs.storageAccountName
+  }
+}
