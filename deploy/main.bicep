@@ -79,8 +79,8 @@ module function 'modules/function.bicep' = {
     appName: appName
     container1Name: container1Name
     container2Name: container2Name
-    eventHubName: eventHub.outputs.eventHubName
     funcStorageAccountType: funcStorageAccountType
+    listenSendName: eventHub.outputs.listenSendName
     location: location
     storageAccountName: storage.outputs.storageAccountName
     systemTopicName: eventHub.outputs.systemTopicName

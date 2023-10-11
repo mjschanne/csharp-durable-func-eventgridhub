@@ -33,6 +33,17 @@ resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {
   }
 }
 
+resource eventHubListenSend 'Microsoft.EventHub/namespaces/eventhubs/authorizationRules@2021-01-01-preview' = {
+  parent: eventHub
+  name: 'ListenSend'
+  properties: {
+    rights: [
+      'Listen'
+      'Send'
+    ]
+  }
+}
+
 resource systemTopic 'Microsoft.EventGrid/systemTopics@2023-06-01-preview' = {
   name: systemTopicName
   location: location
@@ -44,3 +55,4 @@ resource systemTopic 'Microsoft.EventGrid/systemTopics@2023-06-01-preview' = {
 
 output eventHubName string = eventHub.name
 output systemTopicName string = systemTopic.name
+output listenSendName string = eventHubListenSend.name

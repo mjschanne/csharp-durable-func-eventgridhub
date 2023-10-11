@@ -2,7 +2,7 @@ param applicationInsightsName string
 param appName string
 param container1Name string
 param container2Name string
-param eventHubName string
+param listenSendName string
 param funcStorageAccountType string
 param location string
 param storageAccountName string
@@ -10,8 +10,8 @@ param systemTopicName string
 var cleanAppName = replace(appName, '-', '')
 var funcStorageAccountName = '${cleanAppName}storage'
 
-resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' existing = {
-  name: eventHubName
+resource eventHubListenSend 'Microsoft.EventHub/namespaces/eventhubs/authorizationRules@2021-01-01-preview' existing = {
+  name: listenSendName
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
@@ -86,10 +86,10 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: applicationInsights.properties.InstrumentationKey
         }
-        // {
-        //   name: 'EventHubConnStr'
-        //   value: eventHub.listKeys().primaryConnectionString
-        // }
+        {
+          name: 'EventHubConnStr'
+          value: eventHubListenSend.listKeys().primaryConnectionString
+        }
         {
           name: 'EventHubName'
           value: systemTopicName
