@@ -39,7 +39,7 @@ resource systemTopic 'Microsoft.EventGrid/systemTopics@2023-06-01-preview' = {
   }
 }
 
-resource systemTopicSubscription 'Microsoft.EventGrid/eventSubscriptions@2023-06-01-preview' = {
+resource systemTopicSubscription 'Microsoft.EventGrid/eventSubscriptions@2022-06-15' = {
   name: systemTopicSubscriptionName
   scope: systemTopic
   properties: {
