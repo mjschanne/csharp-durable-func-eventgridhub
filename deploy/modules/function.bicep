@@ -90,22 +90,22 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         //   name: 'EventHubConnStr'
         //   value: eventHub.listKeys().primaryConnectionString
         // }
-        // {
-        //   name: 'EventHubName'
-        //   value: systemTopicName
-        // }
+        {
+          name: 'EventHubName'
+          value: systemTopicName
+        }
         // {
         //   name: 'BlobStorage'
         //   value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccountKey};EndpointSuffix=${endpointSuffix}'
         // }
-        // {
-        //   name: 'Container1Name'
-        //   value: container1Name
-        // }
-        // {
-        //   name: 'Container2Name'
-        //   value: container2Name
-        // }
+        {
+          name: 'Container1Name'
+          value: container1Name
+        }
+        {
+          name: 'Container2Name'
+          value: container2Name
+        }
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'dotnet'
