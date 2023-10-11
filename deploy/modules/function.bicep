@@ -52,70 +52,70 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 var funcStorageAccountKey = funcStorageAccount.listKeys().keys[0].value
-// var endpointSuffix = environment().suffixes.storage
+var endpointSuffix = environment().suffixes.storage
 // var storageAccountKey = storageAccount.listKeys().keys[0].value
 
-// resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
-//   name: appName
-//   location: location
-//   kind: 'functionapp'
-//   identity: {
-//     type: 'SystemAssigned'
-//   }
-//   properties: {
-//     serverFarmId: hostingPlan.id
-//     siteConfig: {
-//       appSettings: [
-//         {
-//           name: 'AzureWebJobsStorage'
-//           value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${funcStorageAccountKey}'
-//         }
-//         {
-//           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-//           value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${funcStorageAccountKey}'
-//         }
-//         {
-//           name: 'WEBSITE_CONTENTSHARE'
-//           value: toLower(appName)
-//         }
-//         {
-//           name: 'FUNCTIONS_EXTENSION_VERSION'
-//           value: '~4'
-//         }
-//         {
-//           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-//           value: applicationInsights.properties.InstrumentationKey
-//         }
-//         {
-//           name: 'EventHubConnStr'
-//           value: eventHub.listKeys().primaryConnectionString
-//         }
-//         {
-//           name: 'EventHubName'
-//           value: systemTopicName
-//         }
-//         {
-//           name: 'BlobStorage'
-//           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccountKey};EndpointSuffix=${endpointSuffix}'
-//         }
-//         {
-//           name: 'Container1Name'
-//           value: container1Name
-//         }
-//         {
-//           name: 'Container2Name'
-//           value: container2Name
-//         }
-//         {
-//           name: 'FUNCTIONS_WORKER_RUNTIME'
-//           value: 'dotnet'
-//         }
-//       ]
-//       ftpsState: 'FtpsOnly'
-//       minTlsVersion: '1.2'
-//     }
-//     httpsOnly: true
-//   }
-// }
+resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
+  name: appName
+  location: location
+  kind: 'functionapp'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    serverFarmId: hostingPlan.id
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'AzureWebJobsStorage'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${funcStorageAccountKey}'
+        }
+        {
+          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${funcStorageAccountKey}'
+        }
+        {
+          name: 'WEBSITE_CONTENTSHARE'
+          value: toLower(appName)
+        }
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: applicationInsights.properties.InstrumentationKey
+        }
+        // {
+        //   name: 'EventHubConnStr'
+        //   value: eventHub.listKeys().primaryConnectionString
+        // }
+        // {
+        //   name: 'EventHubName'
+        //   value: systemTopicName
+        // }
+        // {
+        //   name: 'BlobStorage'
+        //   value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccountKey};EndpointSuffix=${endpointSuffix}'
+        // }
+        // {
+        //   name: 'Container1Name'
+        //   value: container1Name
+        // }
+        // {
+        //   name: 'Container2Name'
+        //   value: container2Name
+        // }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'dotnet'
+        }
+      ]
+      ftpsState: 'FtpsOnly'
+      minTlsVersion: '1.2'
+    }
+    httpsOnly: true
+  }
+}
 
-// output functionAppName string = functionApp.name
+output functionAppName string = functionApp.name
