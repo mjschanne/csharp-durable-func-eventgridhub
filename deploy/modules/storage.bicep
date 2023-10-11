@@ -4,7 +4,7 @@ param location string
 param storageAccountName string
 param storageAccountType string
 
-resource sa 'Microsoft.Storage/storageAccounts@2022-09-01' = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName
   location: location
   sku: {
@@ -16,7 +16,7 @@ resource sa 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 
 resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2019-06-01' = {
   name: 'default'
-  parent: sa
+  parent: storageAccount
 }
 
 resource container1 'Microsoft.Storage/storageAccounts/blobServices/containers@2019-06-01' = {
@@ -37,4 +37,5 @@ resource container2 'Microsoft.Storage/storageAccounts/blobServices/containers@2
   }
 }
 
-output storageAccountId string = sa.id
+output storageAccountId string = storageAccount.id
+output storageAccountName string = storageAccount.name

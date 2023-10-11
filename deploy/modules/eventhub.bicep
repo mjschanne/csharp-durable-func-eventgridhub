@@ -1,11 +1,15 @@
 param eventHubSku string
 param location string
 param resourceGroupPrefix string
-param storageAccountId string
+param storageAccountName string
 var eventHubNamespaceName = '${resourceGroupPrefix}-namespace'
 var eventHubName = resourceGroupPrefix
 var systemTopicName = '${resourceGroupPrefix}-systemtopic'
 var systemTopicSubscriptionName = '${resourceGroupPrefix}-systemtopic-sub'
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
+  name: storageAccountName
+}
 
 resource eventHubNamespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
   name: eventHubNamespaceName
@@ -34,14 +38,14 @@ resource systemTopic 'Microsoft.EventGrid/systemTopics@2023-06-01-preview' = {
   name: systemTopicName
   location: location
   properties: {
-    source: storageAccountId
+    source: storageAccount.id
     topicType: 'Microsoft.Storage.StorageAccounts'
   }
 }
 
 resource systemTopicSubscription 'Microsoft.EventGrid/eventSubscriptions@2022-06-15' = {
   name: systemTopicSubscriptionName
-  scope: systemTopic
+  scope: storageAccount
   properties: {
     destination: {
       endpointType: 'EventHub'

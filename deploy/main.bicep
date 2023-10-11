@@ -67,7 +67,7 @@ module eventHub 'modules/eventhub.bicep' = {
     eventHubSku: eventHubSku
     location: location
     resourceGroupPrefix: resourceGroupPrefix
-    storageAccountId: storage.outputs.storageAccountId
+    storageAccountName: storage.outputs.storageAccountName
   }
 }
 
