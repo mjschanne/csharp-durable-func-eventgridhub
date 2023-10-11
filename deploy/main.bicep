@@ -82,7 +82,7 @@ module function 'modules/function.bicep' = {
     eventHubName: eventHub.outputs.eventHubName
     funcStorageAccountType: funcStorageAccountType
     location: location
-    storageAccountId: storage.outputs.storageAccountId
+    storageAccountName: storage.outputs.storageAccountName
     systemTopicName: eventHub.outputs.systemTopicName
   }
 }

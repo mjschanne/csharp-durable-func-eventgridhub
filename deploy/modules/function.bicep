@@ -5,7 +5,7 @@ param container2Name string
 param eventHubName string
 param funcStorageAccountType string
 param location string
-param storageAccountId string
+param storageAccountName string
 param systemTopicName string
 var cleanAppName = replace(appName, '-', '')
 var funcStorageAccountName = '${cleanAppName}storage'
@@ -15,7 +15,7 @@ resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' existing 
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
-  name: storageAccountId
+  name: storageAccountName
 }
 
 resource funcStorageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
