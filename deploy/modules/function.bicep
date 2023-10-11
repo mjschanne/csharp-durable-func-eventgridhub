@@ -86,10 +86,10 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: applicationInsights.properties.InstrumentationKey
         }
-        // {
-        //   name: 'EventHubConnStr'
-        //   value: eventHub.listKeys().primaryConnectionString
-        // }
+        {
+          name: 'EventHubConnStr'
+          value: eventHub.listKeys().primaryConnectionString
+        }
         {
           name: 'EventHubName'
           value: systemTopicName
