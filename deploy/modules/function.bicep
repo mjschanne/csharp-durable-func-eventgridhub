@@ -7,7 +7,8 @@ param funcStorageAccountType string
 param location string
 param storageAccountId string
 param systemTopicName string
-var funcStorageAccountName = '${replace(appName, '-', '')}storage'
+var cleanAppName = replace(appName, '-', '')
+var funcStorageAccountName = '${cleanAppName}storage'
 
 resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' existing = {
   name: eventHubName
@@ -50,6 +51,9 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
+var accountKey = funcStorageAccount.listKeys().keys[0].value
+var endpointSuffix = environment().suffixes.storage
+
 resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
   name: appName
   location: location
@@ -63,11 +67,11 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${funcStorageAccount.listKeys().keys[0].value}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${accountKey}'
         }
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${funcStorageAccount.listKeys().keys[0].value}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${funcStorageAccountName};EndpointSuffix=${endpointSuffix};AccountKey=${accountKey}'
         }
         {
           name: 'WEBSITE_CONTENTSHARE'

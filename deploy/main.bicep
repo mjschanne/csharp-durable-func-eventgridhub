@@ -73,7 +73,7 @@ module eventHub 'modules/eventhub.bicep' = {
 
 module function 'modules/function.bicep' = {
   name: '${resourceGroupPrefix}-function'
-  dependsOn: [eventHub]
+  dependsOn: [eventHub, storage]
   params: {
     applicationInsightsName: applicationInsightsName
     appName: appName
